@@ -3,7 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-
+const axios = require('axios');
 
 public_users.post("/register", (req, res) => {
 
@@ -87,6 +87,21 @@ public_users.get('/title/:title',function (req, res) {
 public_users.get('/review/:isbn',function (req, res) {
     const isbn = req.params.isbn;
     return res.send(JSON.stringify(books[isbn].reviews, null, 4));
+
+});
+
+// Get all books using async-await with Axios
+public_users.get('/asyncbooks', async function (req, res) {
+
+    try {
+        const response = await axios.get('http://localhost:5000/');
+        return res.send(response.data);
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: "Error fetching books"
+        });
+    }
 
 });
 
