@@ -150,4 +150,27 @@ public_users.get('/asyncauthor/:author', async function (req, res) {
 
 });
 
+// Get book details based on Title using Axios and Async-Await
+public_users.get('/asynctitle/:title', async function (req, res) {
+
+    try {
+
+        const title = req.params.title;
+
+        const response = await axios.get(
+            `http://localhost:5000/title/${title}`
+        );
+
+        return res.send(response.data);
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Error fetching books by title"
+        });
+
+    }
+
+});
+
 module.exports.general = public_users;
